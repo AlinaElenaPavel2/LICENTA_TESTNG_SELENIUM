@@ -1,30 +1,34 @@
 package com.licenta.testare.Tests;
 
-import com.licenta.testare.Pages.AnnouncePage;
-import com.licenta.testare.Pages.LoginPage;
-import com.licenta.testare.Pages.NavbarComponent;
+import com.licenta.testare.Pages.*;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LoginTests {
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
+
+public class LibraryTests {
     private LoginPage loginPage;
     private AnnouncePage announcesPage;
     private NavbarComponent navbarComponent;
+    private LibraryPage libraryPage;
     public WebDriver driver;
 
     private static final String LOGIN_URL = "http://localhost:4200/university/login";
 
-    private static final String ROLE = "Student";
+    private static final String USER_ROLE = "Profesor";
     private static final String USERNAME_PROFESOR = "oana.stoleriu@profesor.tuiasi.ro";
     private static final String PASSWORD_PROFESOR = "rrkrfr";
     private static final String USERNAME_STUDENT = "sorina.sosea@student.tuiasi.ro";
     private static final String PASSWORD_STUDENT = "m53oho";
 
+    private static final List<String> LIBRARY_TABS = Arrays.asList("Adaugare materiale auxiliare","Vizualizare materiale auxiliare");
     @Before
     public void logInTheApplication() throws InterruptedException {
         System.setProperty("webdriver.gecko.driver", "C:\\geckodriver\\geckodriver.exe");
@@ -32,12 +36,7 @@ public class LoginTests {
         driver.manage().window().maximize();
         driver.get(LOGIN_URL);
         loginPage = new LoginPage(driver);
-    }
-
-    @Test
-    public void validCredentials() throws InterruptedException {
-        loginPage = new LoginPage(driver);
-        if (ROLE.equals("Profesor")) {
+        if (USER_ROLE.equals("Profesor")) {
             announcesPage = loginPage.fiiInCredentials(USERNAME_PROFESOR, PASSWORD_PROFESOR);
         } else {
             announcesPage = loginPage.fiiInCredentials(USERNAME_STUDENT, PASSWORD_STUDENT);
@@ -51,23 +50,27 @@ public class LoginTests {
         }
     }
 
+    @Test
+    public void accesareLibraryPage() throws InterruptedException {
+        libraryPage = navbarComponent.goToLibraryPage();
+        Thread.sleep(2000);
+        if (USER_ROLE.equals("Profesor")) {
+            Assert.assertTrue("The library tabs are not present!", libraryPage.checkLibraryTabs(LIBRARY_TABS));
+            Assert.assertTrue("The upload books component is not present on the page!", libraryPage.checkUploadBooks());
+            Assert.assertTrue("The post links component is not present on the page!", libraryPage.checkPostLinks());
 
-    //    @Test
-//    public void validateWrongFormatEmail() throws InterruptedException {
-//        loginPage = new LoginPage(driver);
-//        loginPage.fiiInCredentials("marin@student.ro", "marin@1998");
-//
-//
-//        WebDriverWait wait = new WebDriverWait(driver, 10);
-//        WebElement messageElement = wait.until(
-//                ExpectedConditions.presenceOfElementLocated(By.id("error-wrong-format"))
-//        );
-//
-//        String message = messageElement.getText();
-//        String errorMsg= "Wrong format";
-//        Assert.assertEquals(message, errorMsg);
-//        driver.quit();
-//    }
+            libraryPage.clickOnSecondTab();
+            Assert.assertTrue("The links part was not found.", libraryPage.checkLinkuriTile());
+            Assert.assertTrue("The books part was not found.", libraryPage.checkBooksTitle());
+            Assert.assertTrue("There are no links posted.", libraryPage.checkPostedLinks());
+            Assert.assertTrue("The are no books posted", libraryPage.checkPostedBooks());
+
+        } else {
+            Assert.assertTrue("The links part was not found.", libraryPage.checkLinkuriTile());
+            Assert.assertTrue("The books part was not found.", libraryPage.checkBooksTitle());
+            Assert.assertTrue("The books were not filtered.", libraryPage.filtrare("Marke"));
+        }
+    }
 
     @After
     public void logOutFromApplication() throws InterruptedException {

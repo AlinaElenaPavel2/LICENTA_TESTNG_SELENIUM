@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 
-public class CoursePageTests {
+public class CourseTests {
     private LoginPage loginPage;
     private AnnouncePage announcesPage;
     private NavbarComponent navbarComponent;

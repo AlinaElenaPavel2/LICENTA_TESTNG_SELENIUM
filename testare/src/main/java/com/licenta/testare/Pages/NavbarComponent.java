@@ -76,6 +76,18 @@ public class NavbarComponent {
         return new CoursePage(driver);
     }
 
+    public CalendarPage goToCalendarPage() throws InterruptedException {
+        this.getCalendarPage().click();
+        Thread.sleep(2000);
+        return new CalendarPage(driver);
+    }
+
+    public LibraryPage goToLibraryPage() throws InterruptedException {
+        this.getLibraryPage().click();
+        Thread.sleep(2000);
+        return new LibraryPage(driver);
+    }
+
     public WebElement getProfilePicture() {
         return profilePicture;
     }
