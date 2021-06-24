@@ -19,11 +19,13 @@ public class LoginTests {
 
     private static final String LOGIN_URL = "http://localhost:4200/university/login";
 
-    private static final String ROLE = "Student";
+    private static final String USER_ROLE = "Student";
     private static final String USERNAME_PROFESOR = "oana.stoleriu@profesor.tuiasi.ro";
     private static final String PASSWORD_PROFESOR = "rrkrfr";
     private static final String USERNAME_STUDENT = "sorina.sosea@student.tuiasi.ro";
     private static final String PASSWORD_STUDENT = "m53oho";
+
+    private static final int NOTIFICATION_REQUESTS = 4;
 
     @Before
     public void logInTheApplication() throws InterruptedException {
@@ -36,8 +38,7 @@ public class LoginTests {
 
     @Test
     public void validCredentials() throws InterruptedException {
-        loginPage = new LoginPage(driver);
-        if (ROLE.equals("Profesor")) {
+        if (USER_ROLE.equals("Profesor")) {
             announcesPage = loginPage.fiiInCredentials(USERNAME_PROFESOR, PASSWORD_PROFESOR);
         } else {
             announcesPage = loginPage.fiiInCredentials(USERNAME_STUDENT, PASSWORD_STUDENT);
@@ -48,6 +49,17 @@ public class LoginTests {
         if (announcesPage.checkTitlu("Avizier")) {
             navbarComponent = new NavbarComponent(this.driver);
             Assert.assertTrue("There are no icons for every page!", navbarComponent.existsElementToEveryPage());
+        }
+    }
+
+    @Test
+    public void profesorNotification() throws InterruptedException {
+        this.validCredentials();
+        if (USER_ROLE.equals("Profesor")) {
+            Assert.assertTrue("There are no icons for every page!", navbarComponent.notificationsAreDisplayed());
+            navbarComponent.clickOnNotifications();
+            Thread.sleep(1000);
+            Assert.assertTrue("The number of notification requests is not correct!", navbarComponent.checkNbOfNotificationRequest(NOTIFICATION_REQUESTS));
         }
     }
 

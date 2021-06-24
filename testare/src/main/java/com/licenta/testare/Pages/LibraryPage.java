@@ -103,6 +103,7 @@ public class LibraryPage {
         }
         return true;
     }
+
     public boolean checkLibraryTabs(List<String> tabs) {
         int i=0;
         boolean ok=false;

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class NavbarComponent {
     protected WebDriver driver;
     private static final String userNameLocator="//*[@id=\"navbarCollapse\"]/links/ul/li[3]/div/h5";
@@ -18,6 +20,7 @@ public class NavbarComponent {
     private static final String calendarPageLocator="//app-announces/app-navigation-bar/div/ul/li[3]/div/a";
     private static final String libraryPageLocator="//app-announces/app-navigation-bar/div/ul/li[4]/div/a";
     private static final String statisticsPageLocator="//app-announces/app-navigation-bar/div/ul/div/li/div/a";
+    private static final String notificationsLocator="//*[@id=\"navbarCollapse\"]/links/ul/li[1]";
 
     @FindBy(xpath= userNameLocator)
     private WebElement userName;
@@ -45,6 +48,12 @@ public class NavbarComponent {
 
     @FindBy(xpath="//*[@id=\"navbarCollapse\"]/links/ul/li[4]/div[2]/a[2]")
     private WebElement logoutButton;
+
+    @FindBy(xpath="//*[@id=\"navbarCollapse\"]/links/ul/li[1]/div/popover-content/div/div[4]/div")
+    private List<WebElement> notificationsRequests;
+
+    @FindBy(xpath=notificationsLocator)
+    private WebElement notifications;
 
     public NavbarComponent(WebDriver driver) {
         this.driver= driver;
@@ -87,6 +96,34 @@ public class NavbarComponent {
         Thread.sleep(2000);
         return new LibraryPage(driver);
     }
+
+    public StatisticsPage goToStatisticsPage() throws InterruptedException {
+        this.getStatisticsPage().click();
+        Thread.sleep(2000);
+        return new StatisticsPage(driver);
+    }
+
+    public boolean notificationsAreDisplayed()
+    {
+        try {
+            driver.findElement(By.xpath(notificationsLocator));
+        } catch (NoSuchElementException e ) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public void clickOnNotifications()
+    {
+        notifications.click();
+    }
+
+    public boolean checkNbOfNotificationRequest(int nbOfRequests)
+    {
+       return  notificationsRequests.size()==nbOfRequests;
+    }
+
 
     public WebElement getProfilePicture() {
         return profilePicture;

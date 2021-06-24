@@ -21,7 +21,7 @@ public class CalendarTests {
 
     private static final String LOGIN_URL = "http://localhost:4200/university/login";
 
-    private static final String ROLE = "Student";
+    private static final String USER_ROLE = "Student";
     private static final String USERNAME_PROFESOR = "oana.stoleriu@profesor.tuiasi.ro";
     private static final String PASSWORD_PROFESOR = "rrkrfr";
     private static final String USERNAME_STUDENT = "sorina.sosea@student.tuiasi.ro";
@@ -38,7 +38,7 @@ public class CalendarTests {
         driver.manage().window().maximize();
         driver.get(LOGIN_URL);
         loginPage = new LoginPage(driver);
-        if (ROLE.equals("Profesor")) {
+        if (USER_ROLE.equals("Profesor")) {
             announcesPage = loginPage.fiiInCredentials(USERNAME_PROFESOR, PASSWORD_PROFESOR);
         } else {
             announcesPage = loginPage.fiiInCredentials(USERNAME_STUDENT, PASSWORD_STUDENT);
@@ -60,7 +60,7 @@ public class CalendarTests {
         Assert.assertTrue("The calendar it is not displayed!", calendarPage.calendarView());
         Assert.assertTrue("The month options are not displayed it is not displayed!", calendarPage.checktMonthChange(MONTH_OPTIONS));
         Assert.assertTrue("The changing view options are not displayed it is not displayed!", calendarPage.checkChangingView(CHANGING_VIEW_OPTIONS));
-        if (ROLE.equals("Profesor")) {
+        if (USER_ROLE.equals("Profesor")) {
             Assert.assertTrue("Button for adding event it is not displayed!", calendarPage.checkAdaugareEveniment());
             Assert.assertTrue("Button for adding event it is not displayed!", calendarPage.checkEditEvents());
         }
