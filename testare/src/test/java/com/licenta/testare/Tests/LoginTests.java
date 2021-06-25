@@ -24,8 +24,11 @@ public class LoginTests {
     private static final String PASSWORD_PROFESOR = "rrkrfr";
     private static final String USERNAME_STUDENT = "sorina.sosea@student.tuiasi.ro";
     private static final String PASSWORD_STUDENT = "m53oho";
-
+    private boolean INVALID_USER = false;
+    private static final String INVALID_USERNAME = "sorina.sosea@student";
+    private static final String INVALID_PASSWORD = "m53oho";
     private static final int NOTIFICATION_REQUESTS = 4;
+    private static final String NOTIFICATION_MESSAGE = "Username or password are not valid!";
 
     @Before
     public void logInTheApplication() throws InterruptedException {
@@ -53,6 +56,15 @@ public class LoginTests {
     }
 
     @Test
+    public void invalidCredentials() throws InterruptedException {
+        this.INVALID_USER = true;
+        announcesPage = loginPage.fiiInCredentials(INVALID_USERNAME, INVALID_PASSWORD);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        Assert.assertTrue("The login was  successfully!User was  redirected to announce page.", loginPage.userIsNotified(NOTIFICATION_MESSAGE));
+
+    }
+
+    @Test
     public void profesorNotification() throws InterruptedException {
         this.validCredentials();
         if (USER_ROLE.equals("Profesor")) {
@@ -63,27 +75,11 @@ public class LoginTests {
         }
     }
 
-
-    //    @Test
-//    public void validateWrongFormatEmail() throws InterruptedException {
-//        loginPage = new LoginPage(driver);
-//        loginPage.fiiInCredentials("marin@student.ro", "marin@1998");
-//
-//
-//        WebDriverWait wait = new WebDriverWait(driver, 10);
-//        WebElement messageElement = wait.until(
-//                ExpectedConditions.presenceOfElementLocated(By.id("error-wrong-format"))
-//        );
-//
-//        String message = messageElement.getText();
-//        String errorMsg= "Wrong format";
-//        Assert.assertEquals(message, errorMsg);
-//        driver.quit();
-//    }
-
     @After
     public void logOutFromApplication() throws InterruptedException {
-        navbarComponent.logout();
-        driver.quit();
+        if (!this.INVALID_USER) {
+            navbarComponent.logout();
+            driver.quit();
+        }
     }
 }

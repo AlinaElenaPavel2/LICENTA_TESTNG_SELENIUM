@@ -16,6 +16,9 @@ public class LoginPage {
     @FindBy(id="submit")
     protected WebElement submitButton;
 
+    @FindBy(id="//notifier-notification/p")
+    protected WebElement notification;
+
     public LoginPage(WebDriver driver) {
         this.driver= driver;
         PageFactory.initElements(driver, this);
@@ -27,5 +30,9 @@ public class LoginPage {
         submitButton.click();
         Thread.sleep(2000);
         return new AnnouncePage(driver);
+    }
+    public boolean userIsNotified(String notification) throws InterruptedException {
+        Thread.sleep(1000);
+        return  this.notification.getText().equals(notification);
     }
 }
