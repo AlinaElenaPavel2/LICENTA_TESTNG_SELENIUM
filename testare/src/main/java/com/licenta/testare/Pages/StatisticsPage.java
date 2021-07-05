@@ -19,7 +19,7 @@ public class StatisticsPage {
     private static final String yearSelectedDropdownLocator = "//div/div/div[1]/mat-form-field/div/div[1]";
     private static final String statisticChartViewLocator = "//div/div/div[2]/div/canvas";
     private static final String pieChartLocator = "//*[@id=\"chart\"]/apx-chart";
-    private static final String loadingChartLocator = "//div[2]/div/div[2]/div[1]/div/h4";
+    private static final String loadingChartLocator = "//div[2]/div/div[2]/div[1]/div/h5";
 
     @FindBy(xpath = statisticsTabsLocator)
     private List<WebElement> statisticsTabs;

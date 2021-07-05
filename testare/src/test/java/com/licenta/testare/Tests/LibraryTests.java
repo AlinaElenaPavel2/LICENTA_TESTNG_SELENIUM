@@ -53,7 +53,7 @@ public class LibraryTests {
     @Test
     public void accesareLibraryPage() throws InterruptedException {
         libraryPage = navbarComponent.goToLibraryPage();
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         if (USER_ROLE.equals("Profesor")) {
             Assert.assertTrue("The library tabs are not present!", libraryPage.checkLibraryTabs(LIBRARY_TABS));
             Assert.assertTrue("The upload books component is not present on the page!", libraryPage.checkUploadBooks());

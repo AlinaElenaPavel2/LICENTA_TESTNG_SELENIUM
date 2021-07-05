@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CoursePage {
     protected WebDriver driver;
-    String tableLocator="//div/div[2]/table";
+    String tableLocator="//div/div[2]/div/table";
     String recuperareButtonLocator="//div/div[1]/button";
     String anunturiLocator="//div/mat-grid-list/div/mat-grid-tile[1]/figure/div/h4";
     String profesoriLocator="//div/mat-grid-list/div/mat-grid-tile[2]/figure/div/h4";
@@ -109,7 +109,7 @@ public class CoursePage {
         Thread.sleep(500);
         try {
             driver.findElement(By.xpath(recuperareButtonLocator));
-            Thread.sleep(100);
+            Thread.sleep(200);
             driver.findElement(By.xpath(tableLocator));
         } catch (NoSuchElementException | InterruptedException e) {
             return false;

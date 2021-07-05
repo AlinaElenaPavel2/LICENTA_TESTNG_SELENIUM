@@ -29,6 +29,7 @@ public class LoginTests {
     private static final String INVALID_PASSWORD = "m53oho";
     private static final int NOTIFICATION_REQUESTS = 4;
     private static final String NOTIFICATION_MESSAGE = "Username or password are not valid!";
+    private static final int ANNOUNCES_NUMBER = 4;
 
     @Before
     public void logInTheApplication() throws InterruptedException {
@@ -47,8 +48,8 @@ public class LoginTests {
             announcesPage = loginPage.fiiInCredentials(USERNAME_STUDENT, PASSWORD_STUDENT);
         }
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        Assert.assertTrue("The login was not successfully!User was not redirected to announce page.", announcesPage.checkTitlu("Avizier"));
-        Assert.assertTrue("The number of announces are not correct!", announcesPage.checkSizeOfAnnounces(4));
+        Assert.assertTrue("The login was not successfully! User was not redirected to announce page.", announcesPage.checkTitlu("Avizier"));
+        Assert.assertTrue("The number of announces are not correct!", announcesPage.checkSizeOfAnnounces(ANNOUNCES_NUMBER));
         if (announcesPage.checkTitlu("Avizier")) {
             navbarComponent = new NavbarComponent(this.driver);
             Assert.assertTrue("There are no icons for every page!", navbarComponent.existsElementToEveryPage());
@@ -63,6 +64,7 @@ public class LoginTests {
         Assert.assertTrue("The login was  successfully!User was  redirected to announce page.", loginPage.userIsNotified(NOTIFICATION_MESSAGE));
 
     }
+
 
     @Test
     public void profesorNotification() throws InterruptedException {
@@ -79,6 +81,9 @@ public class LoginTests {
     public void logOutFromApplication() throws InterruptedException {
         if (!this.INVALID_USER) {
             navbarComponent.logout();
+            driver.quit();
+        }else
+        {
             driver.quit();
         }
     }

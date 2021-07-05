@@ -5,17 +5,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -94,6 +86,7 @@ public class StatisticsTests {
     public void getEvaluationChart() throws InterruptedException {
         statisticsPage = navbarComponent.goToStatisticsPage();
         if (USER_ROLE.equals("Profesor")) {
+            Thread.sleep(200);
             Assert.assertTrue("The loading spinner is not present on page", statisticsPage.loadingChart());
             statisticsPage.selectEvaluationFromDropdown("partial");
             Assert.assertTrue("The chart is not visible!", statisticsPage.statisticChartIsVisible());

@@ -16,7 +16,7 @@ public class LoginPage {
     @FindBy(id="submit")
     protected WebElement submitButton;
 
-    @FindBy(id="//notifier-notification/p")
+    @FindBy(xpath="//notifier-notification/p")
     protected WebElement notification;
 
     public LoginPage(WebDriver driver) {
